@@ -10,9 +10,9 @@ const {
 // let DoubanDemo = React.createClass({
 //   render() {
 //     return (
-//       <App/>
+//       <View><Text>asfdas</Text></View>
 //     )
 //   }
 // })
 
-AppRegistry.registerComponent('demo2', () => App);
+AppRegistry.registerComponent('demo2', () =>App);

@@ -7,12 +7,12 @@ const {
   AppRegistry,
 } = React
 
-let DoubanDemo = React.createClass({
-  render() {
-    return (
-      <App/>
-    )
-  }
-})
+// let DoubanDemo = React.createClass({
+//   render() {
+//     return (
+//       <App/>
+//     )
+//   }
+// })
 
-AppRegistry.registerComponent('demo2', () => DoubanDemo);
+AppRegistry.registerComponent('demo2', () => App);

@@ -1,7 +1,7 @@
 'use strict'
 import MainView from './mainView'
 import React from 'react-native'
-import {Provider} from 'react-redux'
+import {Provider} from 'react-redux/native'
 import {createStore, applyMiddleware} from 'redux'
 import promiseMiddleware from 'redux-promise-middleware'
 

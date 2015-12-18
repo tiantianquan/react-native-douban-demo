@@ -1,7 +1,7 @@
 'use strict'
 import React from 'react-native'
 import{ bindActionCreators } from 'redux'
-import{ connect } from 'react-redux'
+import{ connect } from 'react-redux/native'
 
 import SubjectListView from './subjectListView'
 import actions from '../actions'

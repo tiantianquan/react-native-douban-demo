@@ -8,8 +8,23 @@ import actions from '../actions'
 
 const {
   NavigatorIOS,
-  StyleSheet
+  Navigator,
+  StyleSheet,
+  Text,
+  View
 } = React
+
+
+
+let Test  = React.createClass({
+  render: function() {
+    return (
+      <View>
+        <Text>navigationBar</Text>
+      </View>
+    )
+  }
+})
 
 
 const MainView = React.createClass({
@@ -18,15 +33,39 @@ const MainView = React.createClass({
   },
   render() {
     const {actions,intheaters} = this.props
-
     return (
-      <NavigatorIOS
-        style={styles.container}
-        initialRoute={{
-          title: 'douban demo',
-          component:SubjectListView,
-          passProps: {intheaters},
-        }} />
+      // <NavigatorIOS
+      //   ref="nav"
+      //   style={styles.container}
+      //   initialRoute={{
+      //     title: 'douban demo',
+      //     component:SubjectListView,
+      //     passProps: {
+      //       intheaters,
+      //     },
+      //   }} />
+      <Navigator
+        initialRoute={{name: 'douban demo', index: 0}}
+        navigationBar={<Test/>}
+        renderScene={(route, navigator) =>
+          <SubjectListView
+            name={route.name}
+            onForward={() => {
+              var nextIndex = route.index + 1;
+              navigator.push({
+                name: 'Scene ' + nextIndex,
+                index: nextIndex,
+              });
+            }}
+            onBack={() => {
+              if (route.index > 0) {
+                navigator.pop();
+              }
+            }}
+            intheaters={intheaters}
+            />
+        }
+        />
     )
   }
 })

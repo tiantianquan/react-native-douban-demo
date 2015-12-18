@@ -2,7 +2,9 @@
 import React from 'react-native'
 
 const {
+  View,
   ListView,
+  TouchableHighlight,
   Text
 } = React
 
@@ -11,19 +13,22 @@ const SubjectListView = React.createClass({
   componentWillMount() {
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
   },
-  // getInitialState(){
-  //   this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-  //   return {
-  //     subjectsData:this.ds.cloneWithRows(this.props.intheaters)
-  //   }
-  // },
+  handleClick(){
+    this.props.onForward()
+  },
   render() {
     const {intheaters} = this.props
     return (
       <ListView
         dataSource={this.ds.cloneWithRows(intheaters)}
-        renderRow={(rowData) => <Text>{rowData.title}</Text>}
-      />
+        renderRow={(rowData) =>
+          <TouchableHighlight onPress={this.handleClick}>
+            <Text>
+              {rowData.title}
+            </Text>
+          </TouchableHighlight>
+        }
+        />
     )
   }
 })

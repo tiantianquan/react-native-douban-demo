@@ -2,7 +2,9 @@
 import { Get_Intheaters } from '../actions'
 
 const initialState = {
-  intheaters:[]
+  intheaters:[{
+    title:123123
+  }]
 }
 
 function reducer(state = initialState, action) {

@@ -25,7 +25,7 @@ const MainView = React.createClass({
         initialRoute={{
           title: 'douban demo',
           component:SubjectListView,
-          passProps: { intheaters},
+          passProps: {intheaters},
         }} />
     )
   }

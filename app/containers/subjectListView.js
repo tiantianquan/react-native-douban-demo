@@ -8,22 +8,20 @@ const {
 
 
 const SubjectListView = React.createClass({
-  getInitialState(){
+  componentWillMount() {
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    return {
-      subjectsData:this.ds.cloneWithRows(this.props.intheaters)
-    }
   },
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      ...this.state,
-      subjectsData:this.ds.cloneWithRows(this.nextProps.intheaters)
-    })
-  },
+  // getInitialState(){
+  //   this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+  //   return {
+  //     subjectsData:this.ds.cloneWithRows(this.props.intheaters)
+  //   }
+  // },
   render() {
+    const {intheaters} = this.props
     return (
       <ListView
-        dataSource={this.state.subjectsData}
+        dataSource={this.ds.cloneWithRows(intheaters)}
         renderRow={(rowData) => <Text>{rowData.title}</Text>}
       />
     )

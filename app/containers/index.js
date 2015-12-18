@@ -14,7 +14,7 @@ const App = React.createClass({
   render() {
     return (
       <Provider store={store}>
-        <MainView/>
+        {()=><MainView/>}
       </Provider>
     )
   }

@@ -71,7 +71,7 @@ const MainView = React.createClass({
 })
 
 let styles = StyleSheet.create({
-  //加入flex才能正常显示listview
+  //NavigatorIOS 加入flex才能正常显示listview
   container: {
     flex: 1,
   },

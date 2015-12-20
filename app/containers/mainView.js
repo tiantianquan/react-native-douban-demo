@@ -77,6 +77,7 @@ let styles = StyleSheet.create({
   },
 })
 
+//redux配置
 function mapStateToProps(state) {
   return {
     intheaters:state.intheaters

@@ -1,8 +1,11 @@
 'use strict'
-import { Get_Intheaters } from '../actions'
+import { Get_Intheaters, Get_Movie_By_Id } from '../actions'
 
 const initialState = {
-  intheaters:[]
+  intheaters: [],
+  movie:{
+    image:''
+  }
 }
 
 function reducer(state = initialState, action) {
@@ -11,6 +14,11 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         intheaters: action.data
+      }
+    case Get_Movie_By_Id:
+      return {
+        ...state,
+        movie: action.data
       }
     default:
       return state

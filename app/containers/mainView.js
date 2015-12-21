@@ -2,37 +2,102 @@
 import React from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux/native'
+import cssVar from 'cssVar'
 
-import SubjectListView from './subjectListView'
+
+
+import SubjectListView from '../components/subjectListView'
+import SubjectView from '../components/subjectView'
 import actions from '../actions'
 
 const {
-  NavigatorIOS,
+  // NavigatorIOS,
   Navigator,
   StyleSheet,
   Text,
-  View
+  TouchableOpacity,
+  PixelRatio,
 } = React
 
 
-
-let Test  = React.createClass({
-  render: function() {
+var NavigationBarRouteMapper = {
+  LeftButton: function(route, navigator, index, navState) {
+    if (index === 0) {
+      return null;
+    }
+    var previousRoute = navState.routeStack[index - 1];
     return (
-      <View>
-        <Text>navigationBar</Text>
-      </View>
-    )
-  }
-})
+      <TouchableOpacity
+        onPress={() => navigator.pop()}
+        style={styles.navBarLeftButton}>
+        <Text style={[styles.navBarText, styles.navBarButtonText]}>
+          {previousRoute.name}
+        </Text>
+      </TouchableOpacity>
+    );
+  },
+  RightButton: function(route, navigator, index, navState) {
+    return (
+      <TouchableOpacity
+        onPress={()=>{}}
+        style={styles.navBarRightButton}>
+        <Text style={[styles.navBarText, styles.navBarButtonText]}>
+          Next
+        </Text>
+      </TouchableOpacity>
+    );
+  },
+
+  Title: function(route, navigator, index, navState) {
+    return (
+      <Text style={[styles.navBarText, styles.navBarTitleText]}>
+        {route.name}
+      </Text>
+    );
+  },
+
+}
 
 
 const MainView = React.createClass({
   componentWillMount(){
     this.props.actions.getIntheatersSync()
   },
+  renderScene(route, navigator){
+    const {actions,intheaters,movie} = this.props
+    switch (route.name) {
+      case 'subjectList':
+      return (<SubjectListView
+          name={route.name}
+          onForward={(movieId) => {
+            var nextIndex = route.index + 1;
+            actions.getMovieByIdSync(movieId)
+            navigator.push({
+              name: 'subject',
+              index: nextIndex,
+              movieId,
+            })
+          }}
+          onBack={() => {
+            if (route.index > 0) {
+              navigator.pop();
+            }
+          }}
+          intheaters={intheaters}
+          />
+      )
+      case 'subject':
+      return (
+        <SubjectView
+          name={route.name}
+          movie={movie}
+          />
+      )
+    }
+
+  },
   render() {
-    const {actions,intheaters} = this.props
+
     return (
       // <NavigatorIOS
       //   ref="nav"
@@ -45,42 +110,73 @@ const MainView = React.createClass({
       //     },
       //   }} />
       <Navigator
-        initialRoute={{name: 'douban demo', index: 0}}
-        navigationBar={<Test/>}
-        renderScene={(route, navigator) =>
-          <SubjectListView
-            name={route.name}
-            onForward={() => {
-              var nextIndex = route.index + 1;
-              navigator.push({
-                name: 'Scene ' + nextIndex,
-                index: nextIndex,
-              });
-            }}
-            onBack={() => {
-              if (route.index > 0) {
-                navigator.pop();
-              }
-            }}
-            intheaters={intheaters}
+        initialRoute={{name: 'subjectList', index: 0}}
+        styles={styles.appContainer}
+        navigationBar={
+          <Navigator.NavigationBar
+            styles={styles.navBar}
+            routeMapper={NavigationBarRouteMapper}
             />
+
         }
+        renderScene={this.renderScene}
         />
     )
   }
 })
 
-let styles = StyleSheet.create({
-  //NavigatorIOS 加入flex才能正常显示listview
-  container: {
-    flex: 1,
+var styles = StyleSheet.create({
+  messageText: {
+    fontSize: 17,
+    fontWeight: '500',
+    padding: 15,
+    marginTop: 50,
+    marginLeft: 15,
   },
-})
+  button: {
+    backgroundColor: 'white',
+    padding: 15,
+    borderBottomWidth: 1 / PixelRatio.get(),
+    borderBottomColor: '#CDCDCD',
+  },
+  buttonText: {
+    fontSize: 17,
+    fontWeight: '500',
+  },
+  navBar: {
+    backgroundColor: 'red',
+  },
+  navBarText: {
+    fontSize: 16,
+    marginVertical: 10,
+  },
+  navBarTitleText: {
+    color: cssVar('fbui-bluegray-60'),
+    fontWeight: '500',
+    marginVertical: 9,
+  },
+  navBarLeftButton: {
+    paddingLeft: 10,
+  },
+  navBarRightButton: {
+    paddingRight: 10,
+  },
+  navBarButtonText: {
+    color: cssVar('fbui-accent-blue'),
+  },
+  scene: {
+    flex: 1,
+    paddingTop: 20,
+    backgroundColor: '#EAEAEA',
+  },
+});
+
 
 //redux配置
 function mapStateToProps(state) {
   return {
-    intheaters:state.intheaters
+    intheaters:state.intheaters,
+    movie:state.movie
   }
 }
 

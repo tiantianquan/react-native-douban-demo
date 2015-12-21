@@ -1,5 +1,6 @@
 'use strict'
 import React from 'react-native'
+import { BlurView, VibrancyView } from 'react-native-blur'
 
 const {
   View,
@@ -8,6 +9,7 @@ const {
   Text,
   Image,
   StyleSheet,
+  ScrollView
 } = React
 
 
@@ -15,31 +17,34 @@ const SubjectListView = React.createClass({
   componentWillMount() {
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
   },
-  handleClick(){
-    this.props.onForward()
+  handleClick(rowData){
+    this.props.onForward(rowData.id)
   },
   render() {
     const {intheaters} = this.props
     return (
+      <ScrollView style={styles.scene}>
       <ListView
         dataSource={this.ds.cloneWithRows(intheaters)}
         renderRow={(rowData) =>
-          <TouchableHighlight onPress={this.handleClick}>
+          <TouchableHighlight onPress={()=>this.handleClick(rowData)}>
             <View>
 
               <View style={styles.row}>
-                <Image
+                  <Image
                   style={styles.thumb}
                   source={{uri:rowData.images.large}} />
                 <Text style={styles.text}>
                   {rowData.title}
                 </Text>
               </View>
+
               <View style={styles.separator} />
             </View>
           </TouchableHighlight>
         }
         />
+    </ScrollView>
     )
   }
 })
@@ -61,6 +66,11 @@ let styles = StyleSheet.create({
   },
   text: {
     flex: 1,
+  },
+  scene: {
+    flex: 1,
+    marginTop: 60,
+    backgroundColor: '#EAEAEA',
   },
 });
 

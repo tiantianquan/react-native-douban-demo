@@ -1,6 +1,5 @@
 'use strict'
 import React from 'react-native'
-import { BlurView, VibrancyView } from 'react-native-blur'
 
 const {
   View,
